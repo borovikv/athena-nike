@@ -1,0 +1,8 @@
+version: '2.0'
+services:
+  presto:
+    container_name: mock_athena
+    hostname: trino
+    image: trinodb/trino
+    ports:
+      - "8880:8080"
