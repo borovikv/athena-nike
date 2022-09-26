@@ -12,12 +12,20 @@ def get_all_specs(specs_package):
     specs = []
     for module in modules:
         importlib.import_module(f'{specs_package}.{module}')
-        specs += getattr(getattr(sql_specs, module), 'SPECS')
+        spec = getattr(getattr(sql_specs, module), 'SPECS')
+        specs.append(spec)
     return specs
 
 
 def spec_parameters(specs):
-    return dict(argnames='spec', argvalues=specs, ids=[format_spec_name(spec) for spec in specs])
+    ids = []
+    argvalues = []
+    for mod_spec in specs:
+        for spec_name, spec in mod_spec.items():
+            ids.append(format_spec_name(spec))
+            argvalues.append((spec_name,spec))
+    result = dict(argnames='spec_name,spec', argvalues=argvalues, ids=ids)
+    return result
 
 
 def format_spec_name(spec):
@@ -30,7 +38,8 @@ def format_spec_name(spec):
 
 
 def build_nodeid(nodeid):
-    match = re.match(r'(?P<file>[^:]+)::(?P<test_name>[^\[]+)\[(?P<spec>[^#]+)#(?P<docstring>[^]]+)]', nodeid)
+    pattern = r'(?P<file>[^:]+)::(?P<test_name>[^\[]+)\[([^-]+-){0,1}(?P<spec>[^#]+)#(?P<docstring>[^]]+)]'
+    match = re.match(pattern, nodeid)
     if match:
         parts = match.groupdict()
         docstring = '\n\t'.join(map(str.strip, parts['docstring'].split('\\n')))

@@ -1,7 +1,7 @@
 with customers as (
     select customer_id, name
     from dims.customer
-    where country = 'UK'
+    where country = '{{country}}'
 ),
 products as (
     select product_id, product_name

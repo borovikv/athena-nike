@@ -1,20 +1,24 @@
-install:
-	pip install -r requirements.txt
-
-
-create-trino:
+build_test_env:
 	docker pull trinodb/trino:391
+	docker-compose -f docker-compose.yml build
 
-start-trino:
+start_test_env:
 	docker-compose up
 
-stop-trino:
+stop_test_env:
 	docker-compose down
 
-clean:
+ifndef name
+NAME=all
+else
+NAME=$(name)
+endif
+
+local_test:
 	find . -name "*.pyc" -type f -delete
+	PYTHONPATH=./src/ \
+	FORMAT_NODE_ID=TRUE \
+	pytest -s -vv --cov=. --testdox --cov-report term-missing $(spec) --run_name $(NAME)
 
 test:
-	make clean
-	PYTHONPATH=./src/ \
-	pytest -s -vv --cov=. --testdox --cov-report term-missing $(spec)
+	docker exec -it tests_runner make local_test spec=$(spec) name=$(NAME)

@@ -1,3 +1,4 @@
+import os
 import re
 
 import pandas as pd
@@ -5,8 +6,9 @@ from sqlalchemy import create_engine
 
 
 class TrinoBaseExecutor:
-    def __init__(self, port=8880):
-        engine = create_engine(f'trino://user@localhost:{port}/memory')
+    def __init__(self):
+        url = os.getenv('TRINO_URL')
+        engine = create_engine(url)
         self.connection = engine.connect()
 
     def execute(self, sql, output_format='dict'):
@@ -33,8 +35,8 @@ class TrinoBaseExecutor:
 
 
 class SpecExecutor(TrinoBaseExecutor):
-    def __init__(self, spec, port=8880):
-        super().__init__(port=port)
+    def __init__(self, spec):
+        super().__init__()
         self.clean_database(spec)
         self.prepare_tables(spec)
 
