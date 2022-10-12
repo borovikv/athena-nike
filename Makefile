@@ -1,11 +1,11 @@
-build_test_env:
+build:
 	docker pull trinodb/trino:391
 	docker-compose -f docker-compose.yml build
 
-start_test_env:
+start:
 	docker-compose up
 
-stop_test_env:
+stop:
 	docker-compose down
 
 ifndef name
