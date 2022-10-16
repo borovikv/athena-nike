@@ -28,7 +28,7 @@ SPECS = dict(
         scenario=SCENARIO,
         description="""
             Given 2 products, only one is from required category
-            When selecting customers
+            When selecting products
             Only products which have correct category will be selected
         """,
         tables=TABLES,
@@ -40,5 +40,23 @@ SPECS = dict(
         },
         run='products',
         expected=[{'product_id': 1, 'product_name': 'Wand'}]
+    ),
+
+    purchase_non_magical_=dict(
+        scenario=SCENARIO,
+        when='no magical objects where bought',
+        tables=TABLES,
+        given={
+            'dims.customer': [{'customer_id': 1, 'name': 'John', 'country': 'UK'}],
+            'dims.product': [
+                {'product_id': 2, 'product_name': 'Spell book', 'category': 'Non Magic'}
+            ],
+            'facts.transactions': [
+                {'product_id': 2, 'customer_id': 1, 'purchase_date': '2022-01-01'},
+            ]
+        },
+        params={'country': 'UK'},
+        run='result',
+        expected=[]
     )
 )

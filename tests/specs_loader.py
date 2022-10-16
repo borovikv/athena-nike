@@ -33,7 +33,7 @@ def format_spec_name(spec):
     if 'description' in spec:
         return f'{name}#{spec["description"]}'
     elif 'when' in spec:
-        return f'{name} when {spec["when"]}'
+        return f'{name}#\nWhen {spec["when"]}'
     return name
 
 
