@@ -26,7 +26,6 @@ RUN pip3 install wheel
 
 # On RHL and Centos based linux, openssl needs to be set as Python Curl SSL library
 ENV PYCURL_SSL_LIBRARY=openssl
-RUN pip3 install --upgrade pip
 RUN pip3 install --compile pycurl
 RUN pip3 install celery[sqs]
 
