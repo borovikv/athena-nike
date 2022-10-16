@@ -7,7 +7,7 @@ from sqlalchemy import create_engine
 
 class TrinoBaseExecutor:
     def __init__(self):
-        url = os.getenv('TRINO_URL')
+        url = os.getenv('TRINO_URL', 'trino://user@localhost:8888/memory')
         engine = create_engine(url)
         self.connection = engine.connect()
 

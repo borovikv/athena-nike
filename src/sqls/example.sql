@@ -5,7 +5,7 @@ with customers as (
 ),
 products as (
     select product_id, product_name
-    from dims.products
+    from dims.product
     where category = 'Magic'
 ),
 result as (

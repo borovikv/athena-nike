@@ -1,6 +1,6 @@
 from tests.fixtures import dims, facts
 
-TABLES = [dims.customer, dims.products, facts.transactions]
+TABLES = [dims.customer, dims.product, facts.transactions]
 
 SCENARIO = 'sqls/example.sql'
 
@@ -33,7 +33,7 @@ SPECS = dict(
         """,
         tables=TABLES,
         given={
-            'dims.products': [
+            'dims.product': [
                 {'product_id': 1, 'product_name': 'Wand', 'category': 'Magic'},
                 {'product_id': 2, 'product_name': 'Phone', 'category': 'Electronics'},
             ]
