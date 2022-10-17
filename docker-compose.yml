@@ -1,0 +1,18 @@
+version: '2.0'
+services:
+  trino:
+    container_name: trino
+    hostname: trino
+    image: trinodb/trino:391
+    expose:
+      - "8080"
+    ports:
+      - "8880:8080"
+  tests_runner:
+    container_name: tests_runner
+    build:
+      context: .
+      dockerfile: Dockerfile
+    tty: true
+    volumes:
+      - ${PWD}:/home/app/workdir
